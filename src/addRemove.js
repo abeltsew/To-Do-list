@@ -1,22 +1,28 @@
 export let todoList = localStorage.getItem('todoList')
   ? JSON.parse(localStorage.getItem('todoList'))
-  : localStorage.setItem('todoList', JSON.stringify([]));
+  : [];
 
 const todos = document.querySelector('.todos');
 const clear = document.createElement('li');
 clear.classList.add('clear');
 clear.innerHTML = 'Clear all completed';
-todos.appendChild(clear);
 
 export const removeTask = (currentItem) => {
   todoList = todoList.filter((todo) => todo.index !== Number(currentItem));
+  if (todoList) {
+    todoList = todoList.sort((a, b) => a.index - b.index);
+    todoList.forEach((td, i) => {
+      td.index = i + 1;
+    });
+  }
   localStorage.setItem('todoList', JSON.stringify(todoList));
   const removeList = document.getElementById(currentItem);
   removeList?.remove();
 };
 
 export const add = (item, currentItem) => {
-  clear.remove();
+  const clearRemove = document.querySelectorAll('.clear');
+  clearRemove.forEach((cl) => cl.remove());
   todoList.push({
     description: item,
     completed: false,

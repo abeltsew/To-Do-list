@@ -9,6 +9,10 @@ const addBtn = document.querySelector('.add-btn');
 
 const input = document.getElementById('input');
 
+const clear = document.createElement('li');
+clear.classList.add('clear');
+clear.innerHTML = 'Clear all completed';
+
 addBtn.addEventListener('click', (e) => {
   e.preventDefault();
   add(inputDesc, currentItem);
@@ -25,6 +29,7 @@ const todos = document.querySelector('.todos');
 todoList
   .sort((a, b) => a.index - b.index)
   .forEach((todo) => {
+    clear.remove();
     const li = document.createElement('li');
     li.classList.add('list-field');
     li.id = todo.index;
@@ -61,4 +66,5 @@ todoList
       icon.style.color = 'red';
     });
     todos.appendChild(li);
+    todos.append(clear);
   });

@@ -1,9 +1,9 @@
 import './style.css';
 
 let todoList = [
-  { description: 'Get Milk', completed: true, index: 1 },
+  { description: 'Get Milk', completed: true, index: 3 },
   { description: 'Wash car', completed: false, index: 2 },
-  { description: 'Finish Project', completed: true, index: 3 },
+  { description: 'Finish Project', completed: true, index: 1 },
 ];
 
 let currentItem = '';
@@ -16,11 +16,13 @@ const handleDelete = () => {
 
 const todos = document.querySelector('.todos');
 
-todoList.forEach((todo) => {
-  const li = document.createElement('li');
-  li.classList.add('list-field');
-  li.id = todo.index;
-  li.innerHTML = `
+todoList
+  .sort((a, b) => a.index - b.index)
+  .forEach((todo) => {
+    const li = document.createElement('li');
+    li.classList.add('list-field');
+    li.id = todo.index;
+    li.innerHTML = `
 <div class="list-label">
   <input type="checkbox" name="task" ${todo.completed ? 'checked' : ''} />
     <input
@@ -31,29 +33,29 @@ todoList.forEach((todo) => {
     />
 </div>
   `;
-  const icon = document.createElement('span');
-  icon.innerHTML = "<i class='fa-solid fa-ellipsis-vertical'></i>";
-  li.appendChild(icon);
+    const icon = document.createElement('span');
+    icon.innerHTML = "<i class='fa-solid fa-ellipsis-vertical'></i>";
+    li.appendChild(icon);
 
-  icon.addEventListener(
-    'click',
-    () => icon.getAttribute('icon') === 'delete' && handleDelete(),
-  );
+    icon.addEventListener(
+      'click',
+      () => icon.getAttribute('icon') === 'delete' && handleDelete(),
+    );
 
-  li.addEventListener('click', () => {
-    currentItem = li.id;
-    const allInput = document.querySelectorAll('span');
-    allInput.forEach((i) => {
-      i.innerHTML = "<i class='fa-solid fa-ellipsis-vertical'></i>";
-      i.setAttribute('icon', 'move');
-      i.style.color = 'black';
+    li.addEventListener('click', () => {
+      currentItem = li.id;
+      const allInput = document.querySelectorAll('span');
+      allInput.forEach((i) => {
+        i.innerHTML = "<i class='fa-solid fa-ellipsis-vertical'></i>";
+        i.setAttribute('icon', 'move');
+        i.style.color = 'black';
+      });
+      icon.innerHTML = "<i class='fa-solid fa-trash-can'></i>";
+      icon.setAttribute('icon', 'delete');
+      icon.style.color = 'red';
     });
-    icon.innerHTML = "<i class='fa-solid fa-trash-can'></i>";
-    icon.setAttribute('icon', 'delete');
-    icon.style.color = 'red';
+    todos.appendChild(li);
   });
-  todos.appendChild(li);
-});
 
 const clear = document.createElement('li');
 clear.classList.add('clear');

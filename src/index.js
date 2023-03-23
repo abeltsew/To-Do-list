@@ -9,7 +9,7 @@ let todoList = [
 let currentItem = '';
 
 const handleDelete = () => {
-  todoList = todoList.filter((todo) => todo.index != Number(currentItem));
+  todoList = todoList.filter((todo) => todo.index !== Number(currentItem));
   const removeList = document.getElementById(currentItem);
   removeList.remove();
 };
@@ -32,23 +32,23 @@ todoList.forEach((todo) => {
 </div>
   `;
   const icon = document.createElement('span');
-  icon.innerHTML = `<i class="fa-solid fa-ellipsis-vertical"></i>`;
+  icon.innerHTML = "<i class='fa-solid fa-ellipsis-vertical'></i>";
   li.appendChild(icon);
 
   icon.addEventListener(
     'click',
-    () => icon.getAttribute('icon') == 'delete' && handleDelete()
+    () => icon.getAttribute('icon') === 'delete' && handleDelete(),
   );
 
   li.addEventListener('click', () => {
     currentItem = li.id;
     const allInput = document.querySelectorAll('span');
     allInput.forEach((i) => {
-      i.innerHTML = `<i class="fa-solid fa-ellipsis-vertical"></i>`;
+      i.innerHTML = "<i class='fa-solid fa-ellipsis-vertical'></i>";
       i.setAttribute('icon', 'move');
       i.style.color = 'black';
     });
-    icon.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+    icon.innerHTML = "<i class='fa-solid fa-trash-can'></i>";
     icon.setAttribute('icon', 'delete');
     icon.style.color = 'red';
   });
@@ -58,3 +58,4 @@ todoList.forEach((todo) => {
 const clear = document.createElement('li');
 clear.classList.add('clear');
 clear.innerHTML = 'Clear all completed';
+todos.appendChild(clear);

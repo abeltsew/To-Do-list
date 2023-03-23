@@ -17,6 +17,11 @@
   width: 80%;
 }
 
+li {
+  display: flex;
+  align-items: center;
+}
+
 .todos li {
   padding: 1.5rem 0.8rem;
   border: solid gray 0.001rem;
@@ -42,11 +47,6 @@
   outline: none;
   font-size: 1rem;
   font-style: italic;
-}
-
-li {
-  display: flex;
-  align-items: center;
 }
 
 .list-label {

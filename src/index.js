@@ -45,7 +45,7 @@ todoList
 
     icon.addEventListener(
       'click',
-      () => icon.getAttribute('icon') === 'delete' && removeTask(currentItem)
+      () => icon.getAttribute('icon') === 'delete' && removeTask(currentItem),
     );
 
     li.addEventListener('click', () => {

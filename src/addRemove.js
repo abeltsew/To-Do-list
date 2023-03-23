@@ -1,4 +1,6 @@
-export let todoList = [];
+export let todoList = localStorage.getItem('todoList')
+  ? JSON.parse(localStorage.getItem('todoList'))
+  : localStorage.setItem('todoList', JSON.stringify([]));
 
 const todos = document.querySelector('.todos');
 const clear = document.createElement('li');
@@ -8,6 +10,7 @@ todos.appendChild(clear);
 
 export const removeTask = (currentItem) => {
   todoList = todoList.filter((todo) => todo.index !== Number(currentItem));
+  localStorage.setItem('todoList', JSON.stringify(todoList));
   const removeList = document.getElementById(currentItem);
   removeList?.remove();
 };
@@ -19,6 +22,7 @@ export const add = (item, currentItem) => {
     completed: false,
     index: todoList.length + 1,
   });
+  localStorage.setItem('todoList', JSON.stringify(todoList));
   const li = document.createElement('li');
   li.classList.add('list-field');
   li.id = todoList.length + 1;

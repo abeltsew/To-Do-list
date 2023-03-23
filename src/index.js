@@ -1,18 +1,24 @@
 import './style.css';
-
-let todoList = [
-  { description: 'Get Milk', completed: true, index: 3 },
-  { description: 'Wash car', completed: false, index: 2 },
-  { description: 'Finish Project', completed: true, index: 1 },
-];
+import { add, removeTask, todoList } from './addRemove.js';
 
 let currentItem = '';
 
-const handleDelete = () => {
-  todoList = todoList.filter((todo) => todo.index !== Number(currentItem));
-  const removeList = document.getElementById(currentItem);
-  removeList.remove();
-};
+let inputDesc = '';
+
+const addBtn = document.querySelector('.add-btn');
+
+const input = document.getElementById('input');
+
+addBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  add(inputDesc, currentItem);
+  inputDesc = '';
+  input.value = inputDesc;
+});
+
+input.addEventListener('keyup', (e) => {
+  inputDesc = e.target.value;
+});
 
 const todos = document.querySelector('.todos');
 
@@ -39,7 +45,7 @@ todoList
 
     icon.addEventListener(
       'click',
-      () => icon.getAttribute('icon') === 'delete' && handleDelete(),
+      () => icon.getAttribute('icon') === 'delete' && removeTask(currentItem)
     );
 
     li.addEventListener('click', () => {
@@ -56,8 +62,3 @@ todoList
     });
     todos.appendChild(li);
   });
-
-const clear = document.createElement('li');
-clear.classList.add('clear');
-clear.innerHTML = 'Clear all completed';
-todos.appendChild(clear);

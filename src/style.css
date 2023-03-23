@@ -22,6 +22,12 @@
   border: solid gray 0.001rem;
 }
 
+.static-li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .list-input {
   border: none;
   height: 100%;

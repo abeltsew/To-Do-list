@@ -1,16 +1,25 @@
 import './style.css';
 
-const todoList = [
+let todoList = [
   { description: 'Get Milk', completed: true, index: 1 },
   { description: 'Wash car', completed: false, index: 2 },
   { description: 'Finish Project', completed: true, index: 3 },
 ];
+
+let currentItem = '';
+
+const handleDelete = () => {
+  console.log(todoList);
+  todoList = todoList.filter((todo) => todo.index != Number(currentItem));
+  console.log(todoList);
+};
 
 const todos = document.querySelector('.todos');
 
 todoList.forEach((todo) => {
   const li = document.createElement('li');
   li.classList.add('list-field');
+  li.id = todo.index;
   li.innerHTML = `
 <div class="list-label">
   <input type="checkbox" name="task" ${todo.completed ? 'checked' : ''} />
@@ -21,19 +30,29 @@ todoList.forEach((todo) => {
       value="${todo.description}"
     />
 </div>
-<svg
-  width="20px"
-  height="20px"
-  viewBox="0 0 16 16"
-  xmlns="http://www.w3.org/2000/svg"
-  fill="#808080"
-  class="bi bi-three-dots-vertical"
->
-  <path
-    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
-  />
-</svg>
   `;
+  const icon = document.createElement('span');
+  icon.innerHTML = `<i class="fa-solid fa-ellipsis-vertical"></i>`;
+  li.appendChild(icon);
+
+  icon.addEventListener(
+    'click',
+    () => icon.getAttribute('icon') == 'delete' && handleDelete()
+  );
+
+  li.addEventListener('click', () => {
+    currentItem = li.id;
+    console.log({ currentItem });
+    const allInput = document.querySelectorAll('span');
+    allInput.forEach((i) => {
+      i.innerHTML = `<i class="fa-solid fa-ellipsis-vertical"></i>`;
+      i.setAttribute('icon', 'move');
+      i.style.color = 'black';
+    });
+    icon.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+    icon.setAttribute('icon', 'delete');
+    icon.style.color = 'red';
+  });
   todos.appendChild(li);
 });
 

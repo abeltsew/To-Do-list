@@ -1,6 +1,4 @@
-export let todoList = localStorage.getItem('todoList')
-  ? JSON.parse(localStorage.getItem('todoList'))
-  : [];
+import todoList from './TodoList.js';
 
 const todos = document.querySelector('.todos');
 const clear = document.createElement('li');
@@ -8,9 +6,17 @@ clear.classList.add('clear');
 clear.innerHTML = 'Clear all completed';
 
 export const removeTask = (currentItem) => {
-  todoList = todoList.filter((todo) => todo.index !== Number(currentItem));
+  todoList.splice(
+    0,
+    todoList.length,
+    ...todoList.filter((todo) => todo.index !== Number(currentItem)),
+  );
   if (todoList) {
-    todoList = todoList.sort((a, b) => a.index - b.index);
+    todoList.splice(
+      0,
+      todoList.length,
+      ...todoList.sort((a, b) => a.index - b.index),
+    );
     todoList.forEach((td, i) => {
       td.index = i + 1;
     });
@@ -49,7 +55,7 @@ export const add = (item, currentItem) => {
 
   icon.addEventListener(
     'click',
-    () => icon.getAttribute('icon') === 'delete' && removeTask(currentItem)
+    () => icon.getAttribute('icon') === 'delete' && removeTask(currentItem),
   );
 
   li.addEventListener('click', () => {

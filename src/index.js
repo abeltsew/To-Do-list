@@ -1,5 +1,6 @@
 import './style.css';
-import { add, removeTask, todoList } from './addRemove.js';
+import { add, removeTask } from './addRemove.js';
+import todoList from './TodoList.js';
 
 let currentItem = '';
 

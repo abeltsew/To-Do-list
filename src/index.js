@@ -9,9 +9,9 @@ let todoList = [
 let currentItem = '';
 
 const handleDelete = () => {
-  console.log(todoList);
   todoList = todoList.filter((todo) => todo.index != Number(currentItem));
-  console.log(todoList);
+  const removeList = document.getElementById(currentItem);
+  removeList.remove();
 };
 
 const todos = document.querySelector('.todos');
@@ -42,7 +42,6 @@ todoList.forEach((todo) => {
 
   li.addEventListener('click', () => {
     currentItem = li.id;
-    console.log({ currentItem });
     const allInput = document.querySelectorAll('span');
     allInput.forEach((i) => {
       i.innerHTML = `<i class="fa-solid fa-ellipsis-vertical"></i>`;

@@ -68,4 +68,15 @@ todoList
     });
     todos.appendChild(li);
     todos.append(clear);
+    li.addEventListener('keyup', (e) => {
+      const update = todoList.map((todo) => {
+        if (todo.index === Number(li.id)) {
+          todo.description = e.target.value;
+          return todo;
+        }
+        return todo;
+      });
+      todoList.splice(0, todoList.length, ...update);
+      localStorage.setItem('todoList', JSON.stringify(todoList));
+    });
   });

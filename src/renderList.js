@@ -7,24 +7,6 @@ const clear = document.createElement('li');
 clear.classList.add('clear');
 clear.innerHTML = 'Clear all completed';
 
-clear.addEventListener('click', () => {
-  const removeCompleted = todoList.filter((todo) => todo.completed === true);
-  removeCompleted.forEach((todo) => {
-    const removeTodo = document.getElementById(todo.index);
-    removeTodo?.remove();
-  });
-  const update = todoList
-    .filter((todo) => todo.completed !== true)
-    .sort((a, b) => a.index - b.index);
-
-  update.forEach((td, i) => {
-    td.index = i + 1;
-  });
-
-  todoList.splice(0, todoList.length, ...update);
-  localStorage.setItem('todoList', JSON.stringify(todoList));
-});
-
 let currentItem = '';
 
 let inputDesc = '';
@@ -116,9 +98,36 @@ const addBtn = document.querySelector('.add-btn');
 
 addBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  add(inputDesc);
-  inputDesc = '';
-  input.value = inputDesc;
+  const ph = document.getElementById('input');
+  if (inputDesc === '') {
+    ph.placeholder = 'Please enter a title here!!!';
+    ph.classList.add('redNotice');
+  } else {
+    add(inputDesc);
+    inputDesc = '';
+    input.value = inputDesc;
+    ph.placeholder = 'Add to your list ...';
+    ph.classList.remove('redNotice');
+    renderList(todoList);
+  }
+});
+
+clear.addEventListener('click', () => {
+  const removeCompleted = todoList.filter((todo) => todo.completed === true);
+  removeCompleted.forEach((todo) => {
+    const removeTodo = document.getElementById(todo.index);
+    removeTodo?.remove();
+  });
+  const update = todoList
+    .filter((todo) => todo.completed !== true)
+    .sort((a, b) => a.index - b.index);
+
+  update.forEach((td, i) => {
+    td.index = i + 1;
+  });
+
+  todoList.splice(0, todoList.length, ...update);
+  localStorage.setItem('todoList', JSON.stringify(todoList));
   renderList(todoList);
 });
 

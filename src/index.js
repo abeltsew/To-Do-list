@@ -34,17 +34,31 @@ todoList
     const li = document.createElement('li');
     li.classList.add('list-field');
     li.id = todo.index;
-    li.innerHTML = `
-<div class="list-label">
-  <input type="checkbox" name="task" ${todo.completed ? 'checked' : ''} />
-    <input
-      type="text"
-      name="task"
-      class="list-input"
-      value="${todo.description}"
-    />
-</div>
-  `;
+    const div = document.createElement('div');
+    div.classList.add('list-label');
+
+    const inputCheck = document.createElement('input');
+    inputCheck.type = 'checkbox';
+    inputCheck.checked = !!todo.completed;
+    inputCheck.addEventListener('change', () => {
+      const update = todoList.map((todo) => {
+        if (todo.index === Number(li.id)) {
+          todo.completed = inputCheck.checked;
+          return todo;
+        }
+        return todo;
+      });
+      todoList.splice(0, todoList.length, ...update);
+      localStorage.setItem('todoList', JSON.stringify(todoList));
+    });
+
+    const inputField = document.createElement('input');
+    inputField.classList.add('list-input');
+    inputField.value = todo.description;
+
+    div.appendChild(inputCheck);
+    div.appendChild(inputField);
+    li.appendChild(div);
     const icon = document.createElement('span');
     icon.innerHTML = "<i class='fa-solid fa-ellipsis-vertical'></i>";
     li.appendChild(icon);

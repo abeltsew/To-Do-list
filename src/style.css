@@ -71,3 +71,8 @@
 .redNotice::placeholder {
   color: red;
 }
+
+.add-btn {
+  border: none;
+  background-color: #fff;
+}

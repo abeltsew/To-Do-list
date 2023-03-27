@@ -1,24 +1,36 @@
 import './style.css';
-
-let todoList = [
-  { description: 'Get Milk', completed: true, index: 3 },
-  { description: 'Wash car', completed: false, index: 2 },
-  { description: 'Finish Project', completed: true, index: 1 },
-];
+import { add, removeTask } from './addRemove.js';
+import todoList from './TodoList.js';
 
 let currentItem = '';
 
-const handleDelete = () => {
-  todoList = todoList.filter((todo) => todo.index !== Number(currentItem));
-  const removeList = document.getElementById(currentItem);
-  removeList.remove();
-};
+let inputDesc = '';
+
+const addBtn = document.querySelector('.add-btn');
+
+const input = document.getElementById('input');
+
+const clear = document.createElement('li');
+clear.classList.add('clear');
+clear.innerHTML = 'Clear all completed';
+
+addBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  add(inputDesc, currentItem);
+  inputDesc = '';
+  input.value = inputDesc;
+});
+
+input.addEventListener('keyup', (e) => {
+  inputDesc = e.target.value;
+});
 
 const todos = document.querySelector('.todos');
 
 todoList
   .sort((a, b) => a.index - b.index)
   .forEach((todo) => {
+    clear.remove();
     const li = document.createElement('li');
     li.classList.add('list-field');
     li.id = todo.index;
@@ -39,7 +51,7 @@ todoList
 
     icon.addEventListener(
       'click',
-      () => icon.getAttribute('icon') === 'delete' && handleDelete(),
+      () => icon.getAttribute('icon') === 'delete' && removeTask(currentItem),
     );
 
     li.addEventListener('click', () => {
@@ -55,9 +67,16 @@ todoList
       icon.style.color = 'red';
     });
     todos.appendChild(li);
+    todos.append(clear);
+    li.addEventListener('keyup', (e) => {
+      const update = todoList.map((todo) => {
+        if (todo.index === Number(li.id)) {
+          todo.description = e.target.value;
+          return todo;
+        }
+        return todo;
+      });
+      todoList.splice(0, todoList.length, ...update);
+      localStorage.setItem('todoList', JSON.stringify(todoList));
+    });
   });
-
-const clear = document.createElement('li');
-clear.classList.add('clear');
-clear.innerHTML = 'Clear all completed';
-todos.appendChild(clear);

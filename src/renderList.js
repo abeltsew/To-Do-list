@@ -17,11 +17,40 @@ input.addEventListener('keyup', (e) => {
   inputDesc = e.target.value;
 });
 
+input.addEventListener('change', (e) => {
+  inputDesc = e.target.value;
+});
+
+export const toggleCompleted = (todoList, id, status) => {
+  const update = todoList.map((todo) => {
+    if (todo.index === Number(id)) {
+      todo.completed = status;
+      return todo;
+    }
+    return todo;
+  });
+  todoList.splice(0, todoList.length, ...update);
+  localStorage.setItem('todoList', JSON.stringify(todoList));
+};
+
+export const handleUpdate = (todoList, id, e) => {
+  const update = todoList.map((todo) => {
+    if (todo.index === Number(id)) {
+      todo.description = e.target.value;
+      return todo;
+    }
+    return todo;
+  });
+  todoList.splice(0, todoList.length, ...update);
+  localStorage.setItem('todoList', JSON.stringify(todoList));
+};
+
 const renderList = (list) => {
   const handleRemoveTask = (currentItem) => {
     removeTask(currentItem);
     renderList(todoList);
   };
+
   const oldList = document.querySelectorAll('.task-item');
   oldList.forEach((ti) => ti.remove());
   list
@@ -35,24 +64,22 @@ const renderList = (list) => {
       const div = document.createElement('div');
       div.classList.add('list-label');
       const inputCheck = document.createElement('input');
+      inputCheck.id = `${todo.index}c`;
       inputCheck.type = 'checkbox';
       inputCheck.checked = !!todo.completed;
+      const inputField = document.createElement('input');
       inputCheck.addEventListener('change', () => {
-        const update = todoList.map((todo) => {
-          if (todo.index === Number(li.id)) {
-            todo.completed = inputCheck.checked;
-            return todo;
-          }
-          return todo;
-        });
-        todoList.splice(0, todoList.length, ...update);
-        localStorage.setItem('todoList', JSON.stringify(todoList));
+        toggleCompleted(todoList, li.id, inputCheck.checked);
+        inputField.style.textDecoration = todo.completed
+          ? 'line-through'
+          : 'none';
       });
 
-      const inputField = document.createElement('input');
       inputField.classList.add('list-input');
       inputField.value = todo.description;
-
+      inputField.style.textDecoration = todo.completed
+        ? 'line-through'
+        : 'none';
       div.appendChild(inputCheck);
       div.appendChild(inputField);
       li.appendChild(div);
@@ -80,16 +107,8 @@ const renderList = (list) => {
       });
       todos.appendChild(li);
       todos.append(clear);
-      li.addEventListener('keyup', (e) => {
-        const update = todoList.map((todo) => {
-          if (todo.index === Number(li.id)) {
-            todo.description = e.target.value;
-            return todo;
-          }
-          return todo;
-        });
-        todoList.splice(0, todoList.length, ...update);
-        localStorage.setItem('todoList', JSON.stringify(todoList));
+      ['keyup', 'change'].forEach((eventItem) => {
+        inputField.addEventListener(eventItem, (e) => handleUpdate(todoList, li.id, e));
       });
     });
 };
@@ -112,7 +131,7 @@ addBtn.addEventListener('click', (e) => {
   }
 });
 
-clear.addEventListener('click', () => {
+export const handleClear = (todoList) => {
   const removeCompleted = todoList.filter((todo) => todo.completed === true);
   removeCompleted.forEach((todo) => {
     const removeTodo = document.getElementById(todo.index);
@@ -129,6 +148,8 @@ clear.addEventListener('click', () => {
   todoList.splice(0, todoList.length, ...update);
   localStorage.setItem('todoList', JSON.stringify(todoList));
   renderList(todoList);
-});
+};
+
+clear.addEventListener('click', () => handleClear(todoList));
 
 export default renderList;

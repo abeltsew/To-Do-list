@@ -1,0 +1,36 @@
+export default document.body.innerHTML = `
+     <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/a4bb0e0fbd.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Todo List</title>
+  </head>
+  <body>
+    <section class="main">
+      <ul class="todos">
+        <li class="static-li">
+          <p>Today's To Do</p>
+          <i class="fa-solid fa-arrows-rotate"></i>
+        </li>
+        <li>
+          <form action="" class="static-li">
+            <input
+              id="input"
+              class="list-input"
+              type="text"
+              placeholder="Add to your list..."
+              required
+            />
+            <button type="submit" class="add-btn">&#8617</button>
+          </form>
+        </li>
+      </ul>
+    </section>
+  </body>
+</html>
+    `;

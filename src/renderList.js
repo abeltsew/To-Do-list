@@ -68,19 +68,19 @@ const renderList = (list) => {
       inputCheck.type = 'checkbox';
       inputCheck.checked = !!todo.completed;
 
+      const inputField = document.createElement('input');
       inputCheck.addEventListener('change', () => {
         toggleCompleted(todoList, li.id, inputCheck.checked);
-        todo.completed
-          ? (inputField.style.textDecoration = 'line-through')
-          : (inputField.style.textDecoration = 'none');
+        inputField.style.textDecoration = todo.completed
+          ? 'line-through'
+          : 'none';
       });
 
-      const inputField = document.createElement('input');
       inputField.classList.add('list-input');
       inputField.value = todo.description;
-      todo.completed
-        ? (inputField.style.textDecoration = 'line-through')
-        : (inputField.style.textDecoration = '');
+      inputField.style.textDecoration = todo.completed
+        ? 'line-through'
+        : 'none';
       div.appendChild(inputCheck);
       div.appendChild(inputField);
       li.appendChild(div);
@@ -90,9 +90,8 @@ const renderList = (list) => {
 
       icon.addEventListener(
         'click',
-        () =>
-          icon.getAttribute('icon') === 'delete' &&
-          handleRemoveTask(currentItem)
+        () => icon.getAttribute('icon') === 'delete'
+          && handleRemoveTask(currentItem),
       );
 
       li.addEventListener('click', () => {
@@ -110,9 +109,7 @@ const renderList = (list) => {
       todos.appendChild(li);
       todos.append(clear);
       ['keyup', 'change'].forEach((eventItem) => {
-        inputField.addEventListener(eventItem, (e) =>
-          handleUpdate(todoList, li.id, e)
-        );
+        inputField.addEventListener(eventItem, (e) => handleUpdate(todoList, li.id, e));
       });
     });
 };

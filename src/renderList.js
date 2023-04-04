@@ -67,7 +67,6 @@ const renderList = (list) => {
       inputCheck.id = `${todo.index}c`;
       inputCheck.type = 'checkbox';
       inputCheck.checked = !!todo.completed;
-
       const inputField = document.createElement('input');
       inputCheck.addEventListener('change', () => {
         toggleCompleted(todoList, li.id, inputCheck.checked);
